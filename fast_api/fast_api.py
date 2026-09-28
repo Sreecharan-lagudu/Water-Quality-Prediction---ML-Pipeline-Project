@@ -20,12 +20,14 @@ logger = logging.getLogger(__name__)
 
 
 # Database Configuration
+import os
+
 class DatabaseConfig:
-    DBNAME = "aqua"
-    USER = "postgres"
-    PASSWORD = "Charanrocks@2597"
-    HOST = "localhost"
-    PORT = "5432"
+    DBNAME = os.getenv("DB_NAME", "aqua")
+    USER = os.getenv("DB_USER", "postgres")
+    PASSWORD = os.getenv("DB_PASSWORD")  # required - comes from environment
+    HOST = os.getenv("DB_HOST", "localhost")
+    PORT = os.getenv("DB_PORT", "5432")
 
 # Defining prediction class
 class Prediction(BaseModel):
