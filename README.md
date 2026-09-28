@@ -2,6 +2,8 @@
 
 **End-to-end MLOps pipeline: ingestion → validation → modeling → serving → monitoring.**
 
+**🔗 Live demo:** [water-quality-prediction-project.streamlit.app](https://water-quality-prediction-project.streamlit.app/) — try the model in your browser
+
 ---
 
 ## 📊 Overview
@@ -18,6 +20,7 @@ This project builds a production-style machine learning pipeline for water quali
 ## 📊 Results
 
 The pipeline's prediction model achieves **91% accuracy** on held-out sensor data.
+The live demo model (retrained on the January slice of the course dataset) measures **87.3% accuracy**.
 
 ## 🔄 Pipeline Architecture
 
