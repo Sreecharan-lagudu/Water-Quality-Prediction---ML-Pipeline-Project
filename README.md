@@ -39,21 +39,15 @@ flowchart LR
 
 | Folder | Description |
 |---|---|
-| `airflow/` | DAGs (`ingestion_dag.py`), ingestion scripts, HTML validation reports |
-| `data/` | Raw chunks, `good_data/`, `bad_data/` |
-| `fastapi_app/` | FastAPI prediction backend |
-| `streamlit_app/` | Streamlit frontend dashboard |
-| `notebooks/` | EDA and experiments |
+| Data_Process/ | EDA and preprocessing notebook |
+| Ml_model.py | Trains the model, saves water_quality_model.pkl |
+| fast_api/ | FastAPI service: save/fetch predictions in PostgreSQL |
+| streamlit/ | Streamlit dashboard: single, batch, and past predictions |
+| setup.sql | Database schema (predictions table) |
 
-## ✅ Ingestion DAG
+## ✅ Ingestion & Validation
 
-The DAG (`airflow/dags/ingestion_dag.py`) handles:
-
-- Reading CSV chunks from `data/ingestion/raw_data_chunks`
-- Validating with **Great Expectations**
-- Routing good/bad data into separate PostgreSQL tables (`good_data_table`, `bad_data_table`)
-- Generating HTML validation reports
-- Sending MS Teams alerts via webhook
+Data ingestion (Airflow) and data validation (Great Expectations) were run in the course VM environment; this repository contains the reusable pipeline code — preprocessing, model training, API, dashboard, and database schema.
 
 ## 🚀 Getting Started
 
@@ -71,14 +65,16 @@ export DB_HOST=localhost
 export DB_PORT=5432
 export DB_NAME=ml_pipeline_db
 
-# 4. Initialize and start Airflow
-airflow db init
-airflow webserver --port 8080   # terminal 1
-airflow scheduler               # terminal 2
+# 4. Create the database and table
+createdb aqua
+psql -d aqua -f setup.sql
 
-# 5. Start the API and UI
-cd fastapi_app && uvicorn main:app --reload
-cd streamlit_app && streamlit run app.py
+# 5. Train the model (requires cleaned_data.csv from the notebook)
+python Ml_model.py
+
+# 6. Start the API and UI (from the repo root)
+uvicorn fast_api.fast_api:app --reload
+streamlit run streamlit/streamlit_app.py
 ```
 
 > ⚠️ **Security note:** database credentials should always come from environment variables or a `.env` file (added to `.gitignore`) — never hardcoded in scripts or committed files.
