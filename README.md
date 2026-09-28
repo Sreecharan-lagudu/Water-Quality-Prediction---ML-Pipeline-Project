@@ -63,7 +63,7 @@ export DB_USER=your_user
 export DB_PASSWORD=your_password
 export DB_HOST=localhost
 export DB_PORT=5432
-export DB_NAME=ml_pipeline_db
+export DB_NAME=aqua
 
 # 4. Create the database and table
 createdb aqua
@@ -91,4 +91,4 @@ streamlit run streamlit/streamlit_app.py
 | Monitoring | Grafana |
 
 ---
-📅 **Last Updated:** October 2025
+📅 **Last Updated:** September 2026
